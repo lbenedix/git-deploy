@@ -61,7 +61,7 @@ if (!$login_successful) {
                     unset($unmerged_commits_hashes[array_search($commit_hash, $unmerged_commits_hashes)]);
                 }
             }
-        } else if ($_POST['action'] == 'commit & push') {
+        } else if ($config['enable_commit_push'] && $_POST['action'] == 'commit & push') {
             if (isset($_POST['commitMessage']) && strlen($_POST['commitMessage']) > 0) {
                 echo '<h3>commit &amp; push</h3>';
                 run_and_print_shell_command('git commit -am' . escapeshellarg($_POST['commitMessage']));
@@ -103,7 +103,7 @@ if (!$login_successful) {
         }
     }
     /* local changes */
-    if ($local_changed && !$remote_changed) {
+    if ($config['enable_commit_push'] && $local_changed && !$remote_changed) {
         echo '<h3>local changes</h3>';
         run_and_print_shell_command('git diff --color');
         echo '<textarea name="commitMessage" rows="5" cols="80" placeholder="commit message"></textarea><br/>';
